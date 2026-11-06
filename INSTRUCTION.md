@@ -1,5 +1,3 @@
-Voilà, juste la section 18, prête à coller dans un fichier `INSTRUCTION.md` à la racine de ton repo:
-
 # INSTRUCTION.md — Comment travailler dans le projet Aetheria
 
 C'est le guide à suivre à la lettre pour rejoindre le projet, coder une tâche et la faire valider. Si tu bloques ici, tu ne codes pas encore.
