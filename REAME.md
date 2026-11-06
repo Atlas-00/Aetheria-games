@@ -75,11 +75,6 @@ Règles :
 - Le `CMakeLists.txt` s'écrit avant toute autre tâche de code. Tant qu'un membre n'arrive pas à compiler, personne ne code.
 - GitHub Actions : compilation sur Windows, macOS et Linux à chaque PR. Une PR qui ne compile pas n'est pas relue.
 
-À décider :
-
-- [ ] Versions exactes de Raylib et de cJSON
-- [ ] Nom de l'exécutable
-
 ## 5. Git / GitHub
 
 - Messages de commit en anglais : `prefix: short description` (ex. `feat: add player collision detection`).
@@ -88,7 +83,7 @@ Règles :
 - Personne ne code directement sur `main`. Intégration par Pull Request, relue par au moins une autre personne.
 - Chaque tâche est une issue GitHub, décrite avant de coder. La branche référence l'issue.
 - `.gitignore` à la racine : `build/`, `*.o`, `*.exe`, `.vscode/`, fichiers d'IDE.
-- [ ] Qui a les droits administrateur pour protéger `main` (push direct interdit) ?
+- Seul les personne au niveau avancée peuvent push dans le main.
 
 ## 6. Répartition des tâches
 
@@ -120,7 +115,7 @@ Le cœur moteur concentre les avancés : prévoir qu'un intermédiaire suive le 
 
 **Exp** : gagnée en tuant des monstres et en terminant des quêtes.
 
-**Niveaux** : de 1 à 15. Premier palier : 15 exp, puis +20% par palier. Table proposée (arrondie à l'entier), à stocker dans un fichier de données et non recalculée en code :
+**Niveaux** : de 1 à 15. Premier palier : 15 exp, puis +20% par palier. Table proposée, à stocker dans un fichier de données et non recalculée en code :
 
 | Niveau atteint | Exp du palier | Exp totale cumulée |
 | --- | --- | --- |
@@ -141,7 +136,7 @@ Le cœur moteur concentre les avancés : prévoir qu'un intermédiaire suive le 
 
 À décider :
 
-- [ ] Exp donnée par chaque monstre et chaque quête (sans ça, la courbe ne veut rien dire)
+- [ ] Exp donnée par chaque monstre et chaque quête
 - [ ] Les attaques physiques spéciales existent-elles ? Si oui, quel coût (Mana, cooldown, autre) ?
 
 ## 8. Inventaire
@@ -281,3 +276,5 @@ Une tâche est terminée quand :
 - il compile sans warning, y compris sur la GitHub Actions ;
 - il a été relu via Pull Request ;
 - il a été testé à la main selon un scénario écrit dans l'issue.
+
+> Nouveau ? Lis d'abord [INSTRUCTION.md](INSTRUCTION.md)
