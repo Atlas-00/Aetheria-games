@@ -4,6 +4,6 @@
   "cmake.generator": "",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "files.exclude": {
-    "build": true
+    "build": false
   }
 }
