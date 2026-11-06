@@ -39,7 +39,10 @@ target_include_directories(cjson PUBLIC third_party/cJSON)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.c")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES}
+    src/combat/combat.c
+    src/include/combat.h
+    src/physic/physic.c)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /utf-8)
