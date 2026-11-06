@@ -1,0 +1,9 @@
+{
+  "cmake.configureArgs": ["-Wno-dev"],
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.generator": "",
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "files.exclude": {
+    "build": true
+  }
+}

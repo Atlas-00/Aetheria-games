@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.21)
 
 project(Aetheria C)
 
+# Fait taire le warning OpenGL deprecated sur macOS
+if(APPLE)
+    add_compile_definitions(GL_SILENCE_DEPRECATION)
+    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON CACHE BOOL "" FORCE)
+endif()
+
 # --- ON VERROUILLE TOUT POUR TOUT LE MONDE ---
-# C11 pour tout le monde, pas de C99 chez l'un et C17 chez l'autre
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -32,8 +37,6 @@ add_subdirectory(third_party/raylib)
 add_library(cjson STATIC third_party/cJSON/cJSON.c)
 target_include_directories(cjson PUBLIC third_party/cJSON)
 
-# --- TON JEU ---
-# On liste explicitement, pas de GLOB pour éviter les "ça marche chez moi"
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.c")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -57,7 +60,6 @@ elseif(WIN32)
 endif()
 
 # --- COPIE DES ASSETS AUTOMATIQUEMENT ---
-# Comme ça plus besoin de copier assets/ à la main
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
