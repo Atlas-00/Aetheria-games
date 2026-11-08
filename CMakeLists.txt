@@ -2,18 +2,15 @@ cmake_minimum_required(VERSION 3.21)
 
 project(Aetheria C)
 
-# Fait taire le warning OpenGL deprecated sur macOS
 if(APPLE)
     add_compile_definitions(GL_SILENCE_DEPRECATION)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON CACHE BOOL "" FORCE)
 endif()
 
-# --- ON VERROUILLE TOUT POUR TOUT LE MONDE ---
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-# Pour que l'exe soit TOUJOURS dans build/ et pas dans build/Debug/ sur Windows
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
@@ -53,7 +50,6 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE src/include)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib cjson)
 
-# Libs système selon l'OS - c'est CMake qui choisit, pas toi
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework IOKit" "-framework Cocoa" "-framework OpenGL")
 elseif(UNIX AND NOT APPLE)

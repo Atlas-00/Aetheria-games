@@ -92,7 +92,7 @@ cmake -B build
 cmake --build build
 ```
 
-# Sur Windows PowerShell: Remove-Item -Recurse -Force build
+Sur Windows PowerShell: Remove-Item -Recurse -Force build
 
 ## 4. Mettre à jour ton projet chaque jour
 
@@ -123,7 +123,7 @@ git pull --recurse-submodules
 git checkout -b feat/player-movement
 ```
 
-# Autres exemples: fix/mana-gauge-overflow, docs/readme-setup
+Autres exemples: fix/mana-gauge-overflow, docs/readme-setup
 
 ## 5.3 Coder
 
