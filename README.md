@@ -58,10 +58,10 @@ Règles :
 - C11, bibliothèque Raylib.
 - Noms de fichiers, fonctions, variables : `snake_case`. Constantes et macros : `MAJUSCULES_SNAKE_CASE`.
 - Types : suffixe `_t` (ex. `player_t`).
-- Documentation Doxygen sur chaque fonction (`@brief`, `@param`, `@return`). On commente le pourquoi, pas l'évidence.
+- Documentation Doxygen sur chaque fonction (`@brief`, `@param`, `@return`).
 - Zéro warning avec `-Wall -Wextra` (GCC / Clang). Sous MSVC, le niveau d'avertissement équivalent est défini dans `CMakeLists.txt`.
-- [ ] Langue du code et des commentaires : anglais (recommandé, cohérent avec les commits) ou français ? À trancher avant la première issue.
-- [x] Compilateur de référence sous Windows : MSVC (Visual Studio Build Tools), celui que teste la CI.
+- [ ] Langue du code et des commentaires : anglais
+- [x] Compilateur de référence sous Windows : MSVC (Visual Studio Build Tools).
 
 ## 4. Build (CMake)
 
@@ -71,15 +71,6 @@ Commande unique pour tout le monde, depuis le dépôt cloné :
 cmake -B build
 cmake --build build
 ```
-
-Règles :
-
-- C11 pour le code du jeu. Le standard est appliqué à la cible du jeu uniquement, pas à raylib (voir `CMakeLists.txt`).
-- Raylib 5.0 et cJSON dans `third_party/`, en sous-modules Git, versions figées. Aucune version "latest".
-- [ ] Tag exact de cJSON à figer.
-- Nom de l'exécutable : `Aetheria`.
-- Le `CMakeLists.txt` est la première chose écrite. Tant qu'un membre n'arrive pas à compiler, personne ne code.
-- GitHub Actions : compilation sur Windows, macOS et Linux à chaque PR. Une PR qui ne compile pas n'est pas relue.
 
 ## 5. Git / GitHub
 
