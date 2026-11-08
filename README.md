@@ -276,5 +276,3 @@ Une tâche est terminée quand :
 - il compile sans warning, y compris sur la GitHub Actions ;
 - il a été relu via Pull Request ;
 - il a été testé à la main selon un scénario écrit dans l'issue.
-
-> Nouveau ? Lis d'abord [INSTRUCTION.md](INSTRUCTION.md)
