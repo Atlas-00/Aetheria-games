@@ -42,7 +42,8 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.c")
 add_executable(${PROJECT_NAME} ${SOURCES}
     src/combat/combat.c
     src/include/combat.h
-    src/physic/physic.c)
+    src/physic/physic.c
+    src/include/physic.h)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /utf-8)

@@ -2,6 +2,8 @@
 
 Cahier des charges, version 2.
 
+Pour installer le projet et travailler dessus : voir [CONTRIBUTING.md](CONTRIBUTING.md).
+
 Les cases `[ ]` sont des décisions encore ouvertes. Tant qu'elles ne sont pas cochées, on ne code pas ce qui en dépend.
 
 ## Modif version 1
@@ -13,8 +15,10 @@ Les cases `[ ]` sont des décisions encore ouvertes. Tant qu'elles ne sont pas c
 - **Dépendances** : Raylib et cJSON, versions figées dans le dépôt (plus de "dernière version stable").
 - **Données** : JSON, lu avec cJSON.
 - **Vérification automatique** : une GitHub Actions compile le projet à chaque Pull Request.
+- **Plateforme de référence** : Windows (MSVC). macOS est supporté, Linux n'est testé que par la CI.
+- **Guide de travail** : installation, workflow Git et relecture sont décrits dans `CONTRIBUTING.md`.
 - **Modèle de données** : stats de gameplay séparées de la référence au sprite. La position reste dans le joueur (c'est de l'état du monde, pas du rendu).
-- **Équipe** : rôles et binômes de relecture écrits noir sur blanc (section 2).
+- **Équipe** : rôles et binômes de relecture écrits (section 2).
 
 ## 1. Périmètre (MVP)
 
@@ -26,9 +30,9 @@ Tout ce qui n'est pas dans cette liste est hors périmètre tant que le MVP n'es
 
 À décider :
 
-- [ ] Titre du jeu
+- [ ] Titre du jeu (nom de code du projet : Aetheria)
 - [ ] Pitch en 3 phrases (histoire, objectif du joueur)
-- [ ] Plateforme de référence pour les tests (Windows, macOS ou Linux)
+- [x] Plateforme de référence pour les tests : Windows (MSVC). macOS supporté, Linux testé par la CI uniquement.
 
 ## 2. Équipe et relecture
 
@@ -54,36 +58,30 @@ Règles :
 - C11, bibliothèque Raylib.
 - Noms de fichiers, fonctions, variables : `snake_case`. Constantes et macros : `MAJUSCULES_SNAKE_CASE`.
 - Types : suffixe `_t` (ex. `player_t`).
-- Documentation Doxygen sur chaque fonction (`@brief`, `@param`, `@return`). On commente le pourquoi, pas l'évidence.
-- Zéro warning avec `-Wall -Wextra` (GCC / Clang).
-- [ ] Langue du code et des commentaires : anglais (recommandé, cohérent avec les commits) ou français ?
-- [ ] Compilateur de référence sous Windows (MinGW ou MSVC). Les flags d'avertissement diffèrent sous MSVC.
+- Documentation Doxygen sur chaque fonction (`@brief`, `@param`, `@return`).
+- Zéro warning avec `-Wall -Wextra` (GCC / Clang). Sous MSVC, le niveau d'avertissement équivalent est défini dans `CMakeLists.txt`.
+- [ ] Langue du code et des commentaires : anglais
+- [x] Compilateur de référence sous Windows : MSVC (Visual Studio Build Tools).
 
 ## 4. Build (CMake)
 
 Commande unique pour tout le monde, depuis le dépôt cloné :
 
-```.
+```bash
 cmake -B build
 cmake --build build
 ```
-
-Règles :
-
-- `CMAKE_C_STANDARD 11`.
-- Raylib et cJSON dans `third_party/` (sous-module Git ou `FetchContent` avec un tag précis). Aucune version "latest".
-- Le `CMakeLists.txt` s'écrit avant toute autre tâche de code. Tant qu'un membre n'arrive pas à compiler, personne ne code.
-- GitHub Actions : compilation sur Windows, macOS et Linux à chaque PR. Une PR qui ne compile pas n'est pas relue.
 
 ## 5. Git / GitHub
 
 - Messages de commit en anglais : `prefix: short description` (ex. `feat: add player collision detection`).
 - Préfixes : `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 - Une branche par tâche, en anglais : `feat/player-movement`, `fix/mana-gauge-overflow`.
-- Personne ne code directement sur `main`. Intégration par Pull Request, relue par au moins une autre personne.
+- Personne ne pousse directement sur `main`, avancés compris : tout passe par Pull Request, relue par au moins une autre personne.
+- Seuls les avancés fusionnent les PR dans `main`, une fois la PR approuvée et la CI verte.
 - Chaque tâche est une issue GitHub, décrite avant de coder. La branche référence l'issue.
 - `.gitignore` à la racine : `build/`, `*.o`, `*.exe`, `.vscode/`, fichiers d'IDE.
-- Seul les personne au niveau avancée peuvent push dans le main.
+- [ ] Protection de `main` activée sur GitHub (1 relecture et CI verte obligatoires). Qui a les droits administrateur ?
 
 ## 6. Répartition des tâches
 
@@ -115,7 +113,7 @@ Le cœur moteur concentre les avancés : prévoir qu'un intermédiaire suive le 
 
 **Exp** : gagnée en tuant des monstres et en terminant des quêtes.
 
-**Niveaux** : de 1 à 15. Premier palier : 15 exp, puis +20% par palier. Table proposée, à stocker dans un fichier de données et non recalculée en code :
+**Niveaux** : de 1 à 15. Premier palier : 15 exp, puis +20% par palier. Table proposée (arrondie à l'entier), à stocker dans un fichier de données et non recalculée en code :
 
 | Niveau atteint | Exp du palier | Exp totale cumulée |
 | --- | --- | --- |
@@ -227,19 +225,22 @@ Toute erreur de chargement est loggée avec le chemin du fichier. Aucun crash si
 - Journal de debug activé par la macro `DEBUG`.
 - Chaque module expose des fonctions testables hors de la boucle graphique.
 
-## 15. Structure des dossiers (proposition à valider)
+## 15. Structure des dossiers
 
-```.
-
+```text
+Aetheria-games/
 ├── CMakeLists.txt
 ├── README.md
+├── CONTRIBUTING.md
 ├── .gitignore
-├── third_party/      Raylib, cJSON (versions figées)
+├── .gitmodules
+├── .github/workflows/build.yml
+├── third_party/      raylib, cJSON (sous-modules, versions figées)
 ├── src/
 │   ├── core/         main.c, boucle de jeu, machine à états, init
 │   ├── physic/       physique, collisions
-│   └── combat/       combat au tour par tour
-    └── include/      fichiers .h
+│   ├── combat/       combat au tour par tour
+│   └── include/      fichiers .h
 ├── assets/
 │   ├── sprites/
 │   ├── audio/
@@ -251,9 +252,11 @@ Toute erreur de chargement est loggée avec le chemin du fichier. Aucun crash si
 
 Des dossiers s'ajoutent avec les modules (inventaire, quêtes, interface).
 
+Git ne versionne pas les dossiers vides : mets un fichier `.gitkeep` dans chaque dossier encore vide. Le dossier `assets/` doit exister, car la compilation le copie automatiquement à côté de l'exécutable.
+
 ## 16. Graphismes et audio
 
-À décider tôt, car ça bloque le débutant :
+À décider tôt, car ça bloque le débutant. La taille des tiles et la résolution bloquent aussi la carte et la caméra du jalon 1 :
 
 - [ ] Taille des tiles (16x16 ou 32x32)
 - [ ] Résolution de la fenêtre, plein écran ou fenêtré
@@ -273,6 +276,16 @@ Pas de date de rendu officielle. Pour ne pas s'essouffler, on se fixe un premier
 Une tâche est terminée quand :
 
 - le code est commenté au format Doxygen ;
-- il compile sans warning, y compris sur la GitHub Actions ;
+- il compile sans warning (le relecteur vérifie le log de la CI, qui n'échoue pas sur un simple warning) ;
 - il a été relu via Pull Request ;
 - il a été testé à la main selon un scénario écrit dans l'issue.
+
+## 18. Avant d'ouvrir les issues du jalon 1
+
+À faire, dans cet ordre :
+
+1. Remplir le tableau de la section 2 (prénom et niveau des 6 membres).
+2. Trancher la langue du code, la taille des tiles et la résolution de la fenêtre (sections 3 et 16).
+3. Activer la protection de `main` (section 5).
+4. Faire cloner et compiler le projet par un membre sous Windows, avec `CONTRIBUTING.md` seul.
+5. Ouvrir une issue par personne pour le jalon 1, chacune avec un scénario de test écrit dedans.
