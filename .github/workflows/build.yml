@@ -1,0 +1,38 @@
+name: build
+
+# Compile le projet sur les 3 systèmes à chaque PR et à chaque push sur main.
+# Une PR qui ne compile pas n'est pas relue.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout (avec les sous-modules raylib et cJSON)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Dépendances de raylib sous Linux. Si CMake signale une bibliothèque
+      # manquante, l'ajouter ici.
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libx11-dev libxrandr-dev \
+            libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev \
+            libxinerama-dev libwayland-dev libxkbcommon-dev
+
+      - name: Configure
+        run: cmake -B build
+
+      - name: Build
+        run: cmake --build build --config Release

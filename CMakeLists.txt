@@ -2,28 +2,14 @@ cmake_minimum_required(VERSION 3.21)
 
 project(Aetheria C)
 
-# Fait taire le warning OpenGL deprecated sur macOS
 if(APPLE)
     add_compile_definitions(GL_SILENCE_DEPRECATION)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON CACHE BOOL "" FORCE)
 endif()
 
-# --- ON VERROUILLE TOUT POUR TOUT LE MONDE ---
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
-
-# Pour que l'exe soit TOUJOURS dans build/ et pas dans build/Debug/ sur Windows
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
-
-# Pour que Windows et Mac compilent pareil
-if(MSVC)
-    add_compile_options(/W3 /utf-8)
-else()
-    add_compile_options(-Wall -Wextra)
-endif()
 
 # --- RAYLIB depuis third_party ---
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -45,6 +31,18 @@ add_executable(${PROJECT_NAME} ${SOURCES}
     src/physic/physic.c
     src/include/physic.h)
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    C_STANDARD 11
+    C_STANDARD_REQUIRED ON
+    C_EXTENSIONS OFF)
+
+# Pour que Windows et Mac compilent pareil
+if(MSVC)
+    add_compile_options(/W3 /utf-8)
+else()
+    add_compile_options(-Wall -Wextra)
+endif()
+
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /utf-8)
 else()
@@ -54,7 +52,6 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE src/include)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib cjson)
 
-# Libs système selon l'OS - c'est CMake qui choisit, pas toi
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework IOKit" "-framework Cocoa" "-framework OpenGL")
 elseif(UNIX AND NOT APPLE)
