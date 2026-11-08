@@ -1,4 +1,18 @@
+# Build
 build/
-*.DS_Store
+CMakeCache.txt
+CMakeFiles/
 *.o
+*.obj
 *.exe
+
+# IDE et éditeurs
+.idea/
+.cache/
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Divers
+*.log

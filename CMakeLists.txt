@@ -7,20 +7,9 @@ if(APPLE)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS ON CACHE BOOL "" FORCE)
 endif()
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
-
-# Pour que Windows et Mac compilent pareil
-if(MSVC)
-    add_compile_options(/W3 /utf-8)
-else()
-    add_compile_options(-Wall -Wextra)
-endif()
 
 # --- RAYLIB depuis third_party ---
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -40,6 +29,18 @@ add_executable(${PROJECT_NAME} ${SOURCES}
     src/combat/combat.c
     src/include/combat.h
     src/physic/physic.c)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    C_STANDARD 11
+    C_STANDARD_REQUIRED ON
+    C_EXTENSIONS OFF)
+
+# Pour que Windows et Mac compilent pareil
+if(MSVC)
+    add_compile_options(/W3 /utf-8)
+else()
+    add_compile_options(-Wall -Wextra)
+endif()
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /utf-8)
