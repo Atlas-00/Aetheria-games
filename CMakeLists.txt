@@ -28,12 +28,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     C_STANDARD_REQUIRED ON
     C_EXTENSIONS OFF)
 
-# Warnings : W4 pour ton code, W3 pour le reste (raylib, cjson)
+# Warnings : uniquement sur le code du jeu (pas sur raylib ni cjson).
+# add_compile_options() ne touche que les cibles créées APRES son appel,
+# donc on utilise target_compile_options() sur la cible du jeu.
 if(MSVC)
-    add_compile_options(/W3)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /utf-8)
 else()
-    add_compile_options(-Wall -Wextra)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE src/include)
