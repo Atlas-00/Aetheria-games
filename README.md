@@ -15,7 +15,7 @@ Les cases `[ ]` sont des décisions encore ouvertes. Tant qu'elles ne sont pas c
 - **Dépendances** : Raylib et cJSON, versions figées dans le dépôt (plus de "dernière version stable").
 - **Données** : JSON, lu avec cJSON.
 - **Vérification automatique** : une GitHub Actions compile le projet à chaque Pull Request.
-- **Plateforme de référence** : Windows (MSVC). macOS est supporté, Linux n'est testé que par la CI.
+- **Plateforme de référence** : Windows (GCC via MSYS2). macOS est supporté, Linux n'est testé que par la CI.
 - **Guide de travail** : installation, workflow Git et relecture sont décrits dans `CONTRIBUTING.md`.
 - **Modèle de données** : stats de gameplay séparées de la référence au sprite. La position reste dans le joueur (c'est de l'état du monde, pas du rendu).
 - **Équipe** : rôles et binômes de relecture écrits (section 2).
@@ -32,7 +32,7 @@ Tout ce qui n'est pas dans cette liste est hors périmètre tant que le MVP n'es
 
 - [ ] Titre du jeu (nom de code du projet : Aetheria)
 - [ ] Pitch en 3 phrases (histoire, objectif du joueur)
-- [x] Plateforme de référence pour les tests : Windows (MSVC). macOS supporté, Linux testé par la CI uniquement.
+- [x] Plateforme de référence pour les tests : Windows (GCC via MSYS2). macOS supporté, Linux testé par la CI uniquement.
 
 ## 2. Équipe et relecture
 
@@ -59,9 +59,9 @@ Règles :
 - Noms de fichiers, fonctions, variables : `snake_case`. Constantes et macros : `MAJUSCULES_SNAKE_CASE`.
 - Types : suffixe `_t` (ex. `player_t`).
 - Documentation Doxygen sur chaque fonction (`@brief`, `@param`, `@return`).
-- Zéro warning avec `-Wall -Wextra` (GCC / Clang). Sous MSVC, le niveau d'avertissement équivalent est défini dans `CMakeLists.txt`.
+- Zéro warning avec `-Wall -Wextra` (GCC / Clang).
 - [ ] Langue du code et des commentaires : anglais
-- [x] Compilateur de référence sous Windows : MSVC (Visual Studio Build Tools).
+- [x] Compilateur de référence sous Windows : GCC (MinGW-w64 UCRT64, installé avec MSYS2), celui que teste la CI.
 
 ## 4. Build (CMake)
 

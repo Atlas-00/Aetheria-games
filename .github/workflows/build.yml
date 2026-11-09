@@ -8,11 +8,12 @@ on:
     branches: [main]
 
 jobs:
+  # Ubuntu (GCC) et macOS (Clang)
   build:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -35,4 +36,34 @@ jobs:
         run: cmake -B build
 
       - name: Build
-        run: cmake --build build --config Release
+        run: cmake --build build
+
+  # Windows : GCC (MinGW-w64 UCRT64) via MSYS2, le même compilateur que
+  # celui installé par l'équipe (voir CONTRIBUTING.md).
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout (avec les sous-modules raylib et cJSON)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup MSYS2 (GCC, CMake, Ninja)
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+
+      - name: Configure
+        run: cmake -B build -G Ninja
+
+      - name: Build
+        run: cmake --build build
